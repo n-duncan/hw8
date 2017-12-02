@@ -20,54 +20,67 @@ def explicit_exponentiation(a, b):
 
 def recursive_exponentiation(a, b):
     # TODO: Find a to the power of b using a recursive algorithm
-    if(b == 0):
-        return 1
+    if(b == 0): 
+        return 1.0 # for exponents of 0
     elif(b > 0):
-        return a * recursive_exponentiation(a, b-1)
+        return float(a * recursive_exponentiation(a, b-1)) # for exponents greater than 0
     else:
-        return (1.0 / a) * recursive_exponentiation(a, b+1)
+        return float(recursive_exponentiation(a, b+1)) / a # for exponenets less than 0
 
     
 def gcd(a, b):
     # TODO: Find gcd of a and b
-    x = 1
-    gcd = 1
-    while(True):
-        if(x > a or x > b):
-            return gcd
-        else:
-            if(a % x == 0 and b % x == 0):
-                gcd = x
-            x += 1
-    
-"""
+    # Using the Euclidean algorithm for finding gcd
+    if(abs(a) % abs(b) == 0): # if a divis by b then return
+        return b
+    else: # else try again with the divisor and the remainder of divison
+        return gcd(b, a % b) 
+
 def find_primes(n):
     # TODO: Find all primes up to n
-
-
+    primes = []
+    for x in range(2,n+1):
+        primes.append(x)
+    index = 0
+    if(len(primes) <= 1):
+        return primes
+    else:
+        x = primes[index]
+    while(x < (n ** (1.0/2))):
+        for y in primes:
+            if(y % x == 0 and y != x):
+                primes.remove(y)
+        x+=1
+    return primes
+    
 def greatest_prime_factor(n):
     # TODO: Find the greatest prime factor for n
-"""
+    #find primes less than square root
+    primes = find_primes(int(n ** (1.0 / 2)))
+    prime = 1
+    while(len(primes) > 0):
+        prime = primes[0]
+        if(n % prime == 0):
+            n = n / prime
+        elif(n == 1):
+            return prime
+        else:
+            primes.remove(prime)
+    #if greatest prime not < sqrt(n)
+    return int(n)
+
 
 #TESTING AREA --------
-
-print("Testing Exponentiation")
-
-print(explicit_exponentiation(1,3))
-print(explicit_exponentiation(5,6))
-print(explicit_exponentiation(5,-1))
-print(explicit_exponentiation(3,0))
-
-print("Testing Recursive Exponentiation")
-
-print(recursive_exponentiation(1,3))
-print(recursive_exponentiation(5,6))
-print(recursive_exponentiation(5,-1))
-print(recursive_exponentiation(3,0))
-
+"""
 print("Testing GCD")
 
-print(gcd(1,3))
-print(gcd(5,125))
-print(gcd(30,60))
-print(gcd(47,156))
+for x in range(2053,2567):
+    for y in range(1520,1789):
+        print(str(x) + " " + str(y))
+        print(gcd(x,y))
+        print("\n")
+
+print(find_primes(100))
+"""
+
+#print(greatest_prime_factor(100))
